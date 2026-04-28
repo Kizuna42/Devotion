@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#176c69">
+  <meta name="description" content="M28 Bible passage list based daily devotion reading schedule.">
+  <meta property="og:title" content="Devotion 70">
+  <meta property="og:description" content="毎日1行ずつ進める聖書通読スケジュール">
+  <meta property="og:image" content="assets/schedule-poster.png">
+  <title>Devotion 70</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23176c69'/%3E%3Cpath d='M20 15h20a8 8 0 0 1 8 8v26H24a8 8 0 0 1-8-8V19a4 4 0 0 1 4-4Z' fill='%23fffdf8'/%3E%3Cpath d='M25 25h14M25 33h14M25 41h10' stroke='%23172426' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f3eb;
+      --paper-deep: #efe6d7;
+      --surface: #fffdf8;
+      --surface-soft: #f1f6f1;
+      --ink: #172426;
+      --muted: #647175;
+      --line: #d7ded7;
+      --teal: #176c69;
+      --teal-soft: #dcefeb;
+      --gold: #e7c465;
+      --sage: #9dcc77;
+      --aqua: #7fc5be;
+      --plum: #d09abe;
+      --coral: #c95d43;
+      --blue: #486aa8;
+      --shadow: 0 12px 40px rgba(36, 45, 38, 0.12);
+      --radius: 8px;
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Avenir Next", sans-serif;
+      font-feature-settings: "palt";
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--paper);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(23, 108, 105, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(201, 93, 67, 0.05) 1px, transparent 1px),
+        var(--paper);
+      background-size: 28px 28px;
+      letter-spacing: 0;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .app-shell {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding: max(14px, env(safe-area-inset-top)) 14px max(28px, env(safe-area-inset-bottom));
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      margin: -1px -14px 12px;
+      padding: max(10px, env(safe-area-inset-top)) 14px 10px;
+      background: color-mix(in srgb, var(--paper) 88%, white);
+      border-bottom: 1px solid rgba(23, 108, 105, 0.16);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: inline-grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      color: white;
+      background: var(--teal);
+      border-radius: 50%;
+      font: 700 13px/1 "Avenir Next", "Hiragino Sans", sans-serif;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(25px, 7vw, 38px);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .brand small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .poster-link {
+      flex: 0 0 auto;
+      min-height: 36px;
+      padding: 9px 11px;
+      color: var(--teal);
+      border: 1px solid rgba(23, 108, 105, 0.28);
+      border-radius: var(--radius);
+      background: #fffaf0;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .summary {
+      display: grid;
+      gap: 12px;
+      margin: 0 0 14px;
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid #ded7ca;
+      border-left: 6px solid var(--teal);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-kicker {
+      margin: 0 0 5px;
+      color: #8a6c38;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .summary-title {
+      margin: 0;
+      font-size: clamp(22px, 6.2vw, 32px);
+      line-height: 1.16;
+    }
+
+    .summary-passage {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.42;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      min-width: 0;
+      padding: 10px 9px;
+      border: 1px solid #e1dccf;
+      border-radius: var(--radius);
+      background: #fbf7ef;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 18px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      overflow: hidden;
+      height: 12px;
+      background: #e5ebe5;
+      border-radius: 999px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      border-radius: inherit;
+      transition: width 220ms ease;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 42px;
+      gap: 8px;
+    }
+
+    .action-button {
+      min-height: 42px;
+      padding: 10px 9px;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid #d7ded7;
+      border-radius: var(--radius);
+      font: 800 14px/1 "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+    }
+
+    .action-button.primary {
+      color: white;
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+      padding-bottom: 36px;
+    }
+
+    .reading-card {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 10px;
+      padding: 12px 11px 12px 13px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 6px 18px rgba(38, 50, 43, 0.06);
+    }
+
+    .reading-card::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: transparent;
+      content: "";
+    }
+
+    .reading-card.weekend-sat::before {
+      background: var(--blue);
+    }
+
+    .reading-card.weekend-sun::before {
+      background: var(--coral);
+    }
+
+    .reading-card.is-complete {
+      background: #edf8f2;
+      border-color: #90cdb6;
+    }
+
+    .reading-card.is-calendar-today {
+      outline: 2px solid rgba(23, 108, 105, 0.45);
+      outline-offset: 2px;
+    }
+
+    .day-box {
+      min-width: 0;
+      padding-top: 3px;
+      text-align: center;
+    }
+
+    .day-number {
+      display: block;
+      font: 800 26px/1 "Avenir Next", "Hiragino Sans", sans-serif;
+    }
+
+    .date-short {
+      display: block;
+      margin-top: 7px;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .weekday {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .card-body {
+      min-width: 0;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      margin-bottom: 7px;
+    }
+
+    .pill {
+      display: inline-flex;
+      min-height: 27px;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .status-pill {
+      color: #405052;
+      background: #dce2de;
+    }
+
+    .reading-card.is-complete .status-pill {
+      color: white;
+      background: var(--teal);
+    }
+
+    .section-s1 {
+      background: var(--gold);
+    }
+
+    .section-s2 {
+      background: var(--sage);
+    }
+
+    .section-follow {
+      background: var(--aqua);
+    }
+
+    .section-grow {
+      background: var(--plum);
+    }
+
+    .reading-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.36;
+      letter-spacing: 0;
+    }
+
+    .passage {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 8px 0 0;
+      color: #39484b;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.42;
+    }
+
+    .passage span {
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .toggle-row {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 2px;
+    }
+
+    .toggle-button {
+      min-height: 40px;
+      min-width: 128px;
+      padding: 10px 12px;
+      color: var(--teal);
+      background: #fffaf0;
+      border: 1px solid rgba(23, 108, 105, 0.24);
+      border-radius: var(--radius);
+      font: 900 14px/1 "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+    }
+
+    .reading-card.is-complete .toggle-button {
+      color: white;
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .poster-panel {
+      margin: 2px 0 12px;
+      padding: 11px;
+      background: #fffaf0;
+      border: 1px solid #e2d7c2;
+      border-radius: var(--radius);
+    }
+
+    .poster-panel img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 280px;
+      object-fit: cover;
+      object-position: top;
+      border: 1px solid #d8d1c5;
+      border-radius: var(--radius);
+    }
+
+    .poster-panel a {
+      display: inline-flex;
+      min-height: 38px;
+      align-items: center;
+      margin-top: 9px;
+      padding: 9px 11px;
+      color: white;
+      background: #8a6c38;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    @media (min-width: 680px) {
+      .app-shell {
+        padding-inline: 22px;
+      }
+
+      .topbar {
+        margin-inline: -22px;
+        padding-inline: 22px;
+      }
+
+      .timeline {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .reading-card {
+        min-height: 156px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-row">
+        <div class="brand" aria-label="Devotion 70">
+          <span class="brand-mark">70</span>
+          <h1>Devotion</h1>
+          <small>M28</small>
+        </div>
+        <a class="poster-link" href="assets/schedule-poster.png">ポスター版</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary" aria-labelledby="summary-title">
+        <div>
+          <p class="summary-kicker" id="summary-kicker">次に読む箇所</p>
+          <h2 class="summary-title" id="summary-title">読み込み中</h2>
+          <p class="summary-passage" id="summary-passage"></p>
+        </div>
+        <div class="summary-grid" aria-label="進捗">
+          <div class="stat">
+            <span>完了</span>
+            <strong id="completed-count">0 / 70</strong>
+          </div>
+          <div class="stat">
+            <span>残り</span>
+            <strong id="remaining-count">70日</strong>
+          </div>
+          <div class="stat">
+            <span>完了予定</span>
+            <strong>7/4</strong>
+          </div>
+        </div>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="actions">
+          <button class="action-button primary" type="button" id="next-button">次へ</button>
+          <button class="action-button" type="button" id="today-button">今日へ</button>
+          <button class="action-button" type="button" id="reset-button" aria-label="リセット">↺</button>
+        </div>
+      </section>
+
+      <section class="poster-panel" aria-label="ポスター版">
+        <img src="assets/schedule-poster.png" alt="毎日聖書通読スケジュールのポスター版">
+        <a href="assets/schedule-poster.png">画像を開く</a>
+      </section>
+
+      <section class="timeline" id="timeline" aria-label="聖書通読スケジュール"></section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "devotionBibleSchedule:v1:completed";
+    const DEFAULT_COMPLETED = [1, 2, 3];
+    const SECTION_CLASS = {
+      "神を発見 S1": "section-s1",
+      "神を発見 S2": "section-s2",
+      "従う": "section-follow",
+      "成熟": "section-grow"
+    };
+    const READINGS = [
+      { day: 1, date: "2026-04-26", weekday: "日", section: "神を発見 S1", title: "神がすべてのものを創造する", passage: "創世記 1:1-25" },
+      { day: 2, date: "2026-04-27", weekday: "月", section: "神を発見 S1", title: "神が人を創造する", passage: "創世記 2:4-24" },
+      { day: 3, date: "2026-04-28", weekday: "火", section: "神を発見 S1", title: "人々が神に背く", passage: "創世記 3:1-13" },
+      { day: 4, date: "2026-04-29", weekday: "水", section: "神を発見 S1", title: "神の応答", passage: "創世記 3:14-24" },
+      { day: 5, date: "2026-04-30", weekday: "木", section: "神を発見 S1", title: "神がご自身の創造物を裁く", passage: "創世記 6:5-22、7:17-24" },
+      { day: 6, date: "2026-05-01", weekday: "金", section: "神を発見 S1", title: "神がすべての創造物に約束を与える", passage: "創世記 8:18-22；9:1-19" },
+      { day: 7, date: "2026-05-02", weekday: "土", section: "神を発見 S1", title: "一つの家族への神の特別な約束", passage: "創世記 12:1-8、15:1-6、17:1-8" },
+      { day: 8, date: "2026-05-03", weekday: "日", section: "神を発見 S1", title: "アブラハムの大いなる試練", passage: "創世記 21:1-7、22:1-19" },
+      { day: 9, date: "2026-05-04", weekday: "月", section: "神を発見 S1", title: "神の約束された苦難のしもべ", passage: "イザヤ書 52:13-53:12" },
+      { day: 10, date: "2026-05-05", weekday: "火", section: "神を発見 S1", title: "イエスの誕生", passage: "ルカ 1:26-38、2:1-20" },
+      { day: 11, date: "2026-05-06", weekday: "水", section: "神を発見 S1", title: "イエスが神を求める人に会う", passage: "ヨハネ 3:1-21" },
+      { day: 12, date: "2026-05-07", weekday: "木", section: "神を発見 S1", title: "イエスが中風の人を癒す", passage: "ルカ 5:17-26" },
+      { day: 13, date: "2026-05-08", weekday: "金", section: "神を発見 S1", title: "イエスが嵐を静める", passage: "マルコ 4:35-41" },
+      { day: 14, date: "2026-05-09", weekday: "土", section: "神を発見 S1", title: "イエスが最後の晩餐を分かち合う", passage: "マタイ 26:17-30" },
+      { day: 15, date: "2026-05-10", weekday: "日", section: "神を発見 S1", title: "イエスが十字架で死ぬ", passage: "ルカ 23:32-49" },
+      { day: 16, date: "2026-05-11", weekday: "月", section: "神を発見 S1", title: "イエスが死からよみがえる", passage: "ルカ 23:50-24:12" },
+      { day: 17, date: "2026-05-12", weekday: "火", section: "神を発見 S1", title: "シリーズまとめ：神の子となること（重要）", passage: "ヨハネ 1:1-18" },
+      { day: 18, date: "2026-05-13", weekday: "水", section: "神を発見 S2", title: "創造：神の証し、御言葉が知恵を与える", passage: "詩篇 19篇" },
+      { day: 19, date: "2026-05-14", weekday: "木", section: "神を発見 S2", title: "神と人間との特別な関係", passage: "詩篇 139:1-18" },
+      { day: 20, date: "2026-05-15", weekday: "金", section: "神を発見 S2", title: "すべての者が神から離れ去った", passage: "詩篇 14篇・53篇" },
+      { day: 21, date: "2026-05-16", weekday: "土", section: "神を発見 S2", title: "神の命令", passage: "申命記 5:1-21、5:32-6:2" },
+      { day: 22, date: "2026-05-17", weekday: "日", section: "神を発見 S2", title: "罪のためのいけにえ", passage: "レビ記 4:13-31" },
+      { day: 23, date: "2026-05-18", weekday: "月", section: "神を発見 S2", title: "赦しの祝福", passage: "詩篇 32篇" },
+      { day: 24, date: "2026-05-19", weekday: "火", section: "神を発見 S2", title: "メシア／キリストをどう識別するか", passage: "詩篇 2篇" },
+      { day: 25, date: "2026-05-20", weekday: "水", section: "神を発見 S2", title: "イエスが洗礼を受ける", passage: "ヨハネ 1:19-34" },
+      { day: 26, date: "2026-05-21", weekday: "木", section: "神を発見 S2", title: "イエスの試み", passage: "マタイ 4:1-22" },
+      { day: 27, date: "2026-05-22", weekday: "金", section: "神を発見 S2", title: "イエスがサマリアの女に会う", passage: "ヨハネ 4:1-26、39-42" },
+      { day: 28, date: "2026-05-23", weekday: "土", section: "神を発見 S2", title: "霊に対するイエスの権威", passage: "マルコ 5:1-20" },
+      { day: 29, date: "2026-05-24", weekday: "日", section: "神を発見 S2", title: "死に対するイエスの権威", passage: "ヨハネ 11:1-44" },
+      { day: 30, date: "2026-05-25", weekday: "月", section: "神を発見 S2", title: "神を見るには", passage: "ヨハネ 14:1-14" },
+      { day: 31, date: "2026-05-26", weekday: "火", section: "神を発見 S2", title: "イエスの死と埋葬", passage: "ヨハネ 19:28-42" },
+      { day: 32, date: "2026-05-27", weekday: "水", section: "神を発見 S2", title: "復活後にイエスが弟子たちに会う", passage: "ルカ 24:13-35" },
+      { day: 33, date: "2026-05-28", weekday: "木", section: "神を発見 S2", title: "まとめ：神の子となること", passage: "ヨハネ 1:1-18" },
+      { day: 34, date: "2026-05-29", weekday: "金", section: "従う", title: "イエスの弟子はすべてを捨てる", passage: "ルカ 5:1-11" },
+      { day: 35, date: "2026-05-30", weekday: "土", section: "従う", title: "弟子は従順によって愛を示す", passage: "ヨハネ 14:15-31" },
+      { day: 36, date: "2026-05-31", weekday: "日", section: "従う", title: "弟子はイエスと同じ視点を持つ", passage: "ピリピ 2:1-13" },
+      { day: 37, date: "2026-06-01", weekday: "月", section: "従う", title: "弟子は神の御言葉によって誘惑に打ち勝つ", passage: "ルカ 4:1-13" },
+      { day: 38, date: "2026-06-02", weekday: "火", section: "従う", title: "弟子は他の人をイエスに紹介する", passage: "ヨハネ 1:35-51" },
+      { day: 39, date: "2026-06-03", weekday: "水", section: "従う", title: "弟子は迫害を経験する", passage: "使徒 4:23-31" },
+      { day: 40, date: "2026-06-04", weekday: "木", section: "従う", title: "弟子はイエスの祈りと断食のモデルを実践する", passage: "マタイ 6:5-18" },
+      { day: 41, date: "2026-06-05", weekday: "金", section: "従う", title: "弟子は敵への愛を示す", passage: "マタイ 5:38-48" },
+      { day: 42, date: "2026-06-06", weekday: "土", section: "従う", title: "弟子は状況を恐れない", passage: "ルカ 8:22-25" },
+      { day: 43, date: "2026-06-07", weekday: "日", section: "従う", title: "弟子は明日のことを思い煩わない", passage: "マタイ 6:25-34" },
+      { day: 44, date: "2026-06-08", weekday: "月", section: "従う", title: "弟子は赦し、壊れた関係の回復を図る", passage: "マタイ 18:15-35" },
+      { day: 45, date: "2026-06-09", weekday: "火", section: "従う", title: "結婚においてイエスに従う（前編）", passage: "1コリント 7:1-17、2コリント 6:14-18" },
+      { day: 46, date: "2026-06-10", weekday: "水", section: "従う", title: "結婚においてイエスに従う（後編）", passage: "マタイ 19:1-12、エペソ 5:21-33" },
+      { day: 47, date: "2026-06-11", weekday: "木", section: "従う", title: "弟子は約束を守る", passage: "マタイ 5:33-37" },
+      { day: 48, date: "2026-06-12", weekday: "金", section: "従う", title: "弟子はキリストにあって成熟するにつれ異なる生き方をする", passage: "エペソ 4:15-31" },
+      { day: 49, date: "2026-06-13", weekday: "土", section: "成熟", title: "弟子は神を愛し人を愛する", passage: "マタイ 22:34-40" },
+      { day: 50, date: "2026-06-14", weekday: "日", section: "成熟", title: "弟子はあらゆる国の人を弟子とする", passage: "マタイ 28:16-20" },
+      { day: 51, date: "2026-06-15", weekday: "月", section: "成熟", title: "弟子は弟子の道のコストを数える", passage: "ルカ 14:25-35" },
+      { day: 52, date: "2026-06-16", weekday: "火", section: "成熟", title: "弟子は失われた者を探し求める", passage: "ルカ 15章" },
+      { day: 53, date: "2026-06-17", weekday: "水", section: "成熟", title: "弟子は永遠のために投資する", passage: "ルカ 16:1-9" },
+      { day: 54, date: "2026-06-18", weekday: "木", section: "成熟", title: "弟子はキリストの大使である", passage: "2コリント 5:11-21" },
+      { day: 55, date: "2026-06-19", weekday: "金", section: "成熟", title: "弟子は自分のストーリーを分かち合う", passage: "ヨハネ 4:4-26、39-42" },
+      { day: 56, date: "2026-06-20", weekday: "土", section: "成熟", title: "イエスの弟子は信じ、バプテスマを受ける", passage: "使徒 8:9-13" },
+      { day: 57, date: "2026-06-21", weekday: "日", section: "成熟", title: "弟子は聖餐においてイエスを記念する", passage: "ルカ 22:14-23" },
+      { day: 58, date: "2026-06-22", weekday: "月", section: "成熟", title: "弟子はキリストのからだの一部であることを理解する", passage: "1コリント 12:12-30" },
+      { day: 59, date: "2026-06-23", weekday: "火", section: "成熟", title: "弟子はコミュニティを実践する", passage: "ヘブル 10:23-25" },
+      { day: 60, date: "2026-06-24", weekday: "水", section: "成熟", title: "弟子は父なる神の役割を理解する", passage: "詩篇 139:1-8" },
+      { day: 61, date: "2026-06-25", weekday: "木", section: "成熟", title: "弟子は聖霊の役割を理解する", passage: "1コリント 2:10-16" },
+      { day: 62, date: "2026-06-26", weekday: "金", section: "成熟", title: "弟子は御子の役割を理解する", passage: "コロサイ 1:15-20" },
+      { day: 63, date: "2026-06-27", weekday: "土", section: "成熟", title: "弟子は神との関係に基づいて祈る", passage: "ヨハネ 17章" },
+      { day: 64, date: "2026-06-28", weekday: "日", section: "成熟", title: "弟子はキリストにおける自分の立場に照らして生きる", passage: "エペソ 1:3-14" },
+      { day: 65, date: "2026-06-29", weekday: "月", section: "成熟", title: "弟子はキリストとの関係において安全である", passage: "ヨハネ 10:25-30" },
+      { day: 66, date: "2026-06-30", weekday: "火", section: "成熟", title: "弟子は神の訓練を受け入れる", passage: "ヘブル 12:5-11" },
+      { day: 67, date: "2026-07-01", weekday: "水", section: "成熟", title: "弟子は神を愛し隣人を愛する", passage: "マルコ 12:28-34" },
+      { day: 68, date: "2026-07-02", weekday: "木", section: "成熟", title: "弟子はキリストにあって一致を保つ", passage: "エペソ 4:1-6" },
+      { day: 69, date: "2026-07-03", weekday: "金", section: "成熟", title: "弟子はキリストにあって一致を保つ", passage: "1コリント 1:10-17" },
+      { day: 70, date: "2026-07-04", weekday: "土", section: "成熟", title: "弟子は生きる知恵をもたらす神の御言葉を喜ぶ", passage: "詩篇 1篇" }
+    ];
+
+    const timeline = document.querySelector("#timeline");
+    const summaryKicker = document.querySelector("#summary-kicker");
+    const summaryTitle = document.querySelector("#summary-title");
+    const summaryPassage = document.querySelector("#summary-passage");
+    const completedCount = document.querySelector("#completed-count");
+    const remainingCount = document.querySelector("#remaining-count");
+    const progressFill = document.querySelector("#progress-fill");
+    const nextButton = document.querySelector("#next-button");
+    const todayButton = document.querySelector("#today-button");
+    const resetButton = document.querySelector("#reset-button");
+
+    function localTodayIso() {
+      const now = new Date();
+      const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+      return local.toISOString().slice(0, 10);
+    }
+
+    function loadCompleted() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_COMPLETED));
+        return new Set(DEFAULT_COMPLETED);
+      }
+      try {
+        const values = JSON.parse(raw).filter((value) => Number.isInteger(value));
+        return new Set(values);
+      } catch {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_COMPLETED));
+        return new Set(DEFAULT_COMPLETED);
+      }
+    }
+
+    function saveCompleted(completed) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed].sort((a, b) => a - b)));
+    }
+
+    let completed = loadCompleted();
+    const todayIso = localTodayIso();
+
+    function sectionClass(section) {
+      return SECTION_CLASS[section] || "section-grow";
+    }
+
+    function shortDate(date) {
+      const [, month, day] = date.split("-");
+      return `${Number(month)}/${Number(day)}`;
+    }
+
+    function renderCards() {
+      timeline.innerHTML = READINGS.map((reading) => {
+        const isComplete = completed.has(reading.day);
+        const isToday = reading.date === todayIso;
+        const weekendClass = reading.weekday === "土" ? "weekend-sat" : reading.weekday === "日" ? "weekend-sun" : "";
+        return `
+          <article class="reading-card ${weekendClass} ${isComplete ? "is-complete" : ""} ${isToday ? "is-calendar-today" : ""}" id="day-${reading.day}" data-day="${reading.day}">
+            <div class="day-box">
+              <span class="day-number">${String(reading.day).padStart(2, "0")}</span>
+              <time class="date-short" datetime="${reading.date}">${shortDate(reading.date)}</time>
+              <span class="weekday">(${reading.weekday})</span>
+            </div>
+            <div class="card-body">
+              <div class="meta-row">
+                <span class="pill status-pill">${isComplete ? "完了" : "予定"}</span>
+                <span class="pill ${sectionClass(reading.section)}">${reading.section}</span>
+              </div>
+              <h2 class="reading-title">${reading.title}</h2>
+              <p class="passage"><span>聖書箇所</span>${reading.passage}</p>
+            </div>
+            <div class="toggle-row">
+              <button class="toggle-button" type="button" aria-pressed="${isComplete}" data-toggle="${reading.day}">
+                ${isComplete ? "完了済み" : "完了にする"}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function updateSummary() {
+      const done = completed.size;
+      const remaining = READINGS.length - done;
+      const nextReading = READINGS.find((reading) => !completed.has(reading.day)) || READINGS[READINGS.length - 1];
+      const calendarReading = READINGS.find((reading) => reading.date === todayIso);
+      const featured = calendarReading && !completed.has(calendarReading.day) ? calendarReading : nextReading;
+
+      summaryKicker.textContent = completed.has(featured.day) ? "完了" : featured.date === todayIso ? "今日の箇所" : "次に読む箇所";
+      summaryTitle.textContent = featured.title;
+      summaryPassage.textContent = `${shortDate(featured.date)}（${featured.weekday}） ${featured.passage}`;
+      completedCount.textContent = `${done} / ${READINGS.length}`;
+      remainingCount.textContent = `${remaining}日`;
+      progressFill.style.width = `${Math.round((done / READINGS.length) * 100)}%`;
+      nextButton.dataset.target = `day-${nextReading.day}`;
+      todayButton.dataset.target = calendarReading ? `day-${calendarReading.day}` : `day-${nextReading.day}`;
+    }
+
+    function scrollToCard(id) {
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    function refresh() {
+      renderCards();
+      updateSummary();
+    }
+
+    timeline.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-toggle]");
+      if (!button) return;
+      const day = Number(button.dataset.toggle);
+      if (completed.has(day)) {
+        completed.delete(day);
+      } else {
+        completed.add(day);
+      }
+      saveCompleted(completed);
+      refresh();
+    });
+
+    nextButton.addEventListener("click", () => scrollToCard(nextButton.dataset.target));
+    todayButton.addEventListener("click", () => scrollToCard(todayButton.dataset.target));
+    resetButton.addEventListener("click", () => {
+      completed = new Set(DEFAULT_COMPLETED);
+      saveCompleted(completed);
+      refresh();
+      scrollToCard("day-4");
+    });
+
+    refresh();
+  </script>
+</body>
+</html>
