@@ -13,24 +13,26 @@
   <style>
     :root {
       color-scheme: light;
-      --paper: #f7f3eb;
-      --paper-deep: #efe6d7;
-      --surface: #fffdf8;
-      --surface-soft: #f1f6f1;
-      --ink: #172426;
-      --muted: #647175;
-      --line: #d7ded7;
-      --teal: #176c69;
+      --paper: #f8f3e8;
+      --paper-ink: #e7dcc9;
+      --surface: #fffdf7;
+      --surface-soft: #edf7f2;
+      --ink: #132225;
+      --muted: #657275;
+      --line: #d9ded5;
+      --teal: #126b68;
+      --teal-dark: #0b4e4b;
       --teal-soft: #dcefeb;
-      --gold: #e7c465;
-      --sage: #9dcc77;
-      --aqua: #7fc5be;
-      --plum: #d09abe;
+      --gold: #e8c865;
+      --amber: #8b6a31;
+      --sage: #a6cf79;
+      --aqua: #7dc7bf;
+      --plum: #d49ac0;
       --coral: #c95d43;
-      --blue: #486aa8;
-      --shadow: 0 12px 40px rgba(36, 45, 38, 0.12);
+      --blue: #4c6daa;
+      --shadow: 0 18px 42px rgba(37, 45, 39, 0.12);
       --radius: 8px;
-      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Avenir Next", sans-serif;
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "Hiragino Sans", serif;
       font-feature-settings: "palt";
     }
 
@@ -48,33 +50,35 @@
       margin: 0;
       color: var(--ink);
       background:
-        linear-gradient(90deg, rgba(23, 108, 105, 0.05) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(201, 93, 67, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 50% -18%, rgba(232, 200, 101, 0.2), transparent 36%),
+        linear-gradient(90deg, rgba(18, 107, 104, 0.055) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(139, 106, 49, 0.06) 1px, transparent 1px),
         var(--paper);
-      background-size: 28px 28px;
+      background-size: auto, 30px 30px, 30px 30px;
       letter-spacing: 0;
     }
 
     button,
     a {
       -webkit-tap-highlight-color: transparent;
+      font: inherit;
     }
 
     .app-shell {
       width: min(100%, 720px);
       margin: 0 auto;
-      padding: max(14px, env(safe-area-inset-top)) 14px max(28px, env(safe-area-inset-bottom));
+      padding: max(12px, env(safe-area-inset-top)) 14px max(30px, env(safe-area-inset-bottom));
     }
 
     .topbar {
       position: sticky;
       top: 0;
       z-index: 10;
-      margin: -1px -14px 12px;
-      padding: max(10px, env(safe-area-inset-top)) 14px 10px;
-      background: color-mix(in srgb, var(--paper) 88%, white);
-      border-bottom: 1px solid rgba(23, 108, 105, 0.16);
-      backdrop-filter: blur(18px);
+      margin: -1px -14px 10px;
+      padding: max(10px, env(safe-area-inset-top)) 14px 9px;
+      background: rgba(248, 243, 232, 0.9);
+      border-bottom: 1px solid rgba(18, 107, 104, 0.16);
+      backdrop-filter: blur(20px);
     }
 
     .brand-row {
@@ -86,80 +90,136 @@
 
     .brand {
       display: flex;
-      align-items: baseline;
-      gap: 9px;
+      align-items: center;
+      gap: 8px;
       min-width: 0;
     }
 
     .brand-mark {
       display: inline-grid;
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       place-items: center;
       color: white;
       background: var(--teal);
       border-radius: 50%;
-      font: 700 13px/1 "Avenir Next", "Hiragino Sans", sans-serif;
+      font: 800 13px/1 "Avenir Next", "Hiragino Sans", sans-serif;
+      box-shadow: 0 7px 16px rgba(18, 107, 104, 0.22);
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(25px, 7vw, 38px);
-      line-height: 0.95;
+      font-family: "Avenir Next", "Hiragino Sans", sans-serif;
+      font-size: clamp(25px, 7vw, 36px);
+      line-height: 1;
       letter-spacing: 0;
     }
 
-    .brand small {
+    .brand-tag {
       color: var(--muted);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
+    }
+
+    .top-progress {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      color: var(--teal-dark);
+      background: rgba(255, 253, 247, 0.72);
+      border: 1px solid rgba(18, 107, 104, 0.16);
+      border-radius: 999px;
+      font: 800 12px/1 "Avenir Next", "Hiragino Sans", sans-serif;
     }
 
     .poster-link {
       flex: 0 0 auto;
       min-height: 36px;
-      padding: 9px 11px;
+      padding: 9px 10px;
       color: var(--teal);
-      border: 1px solid rgba(23, 108, 105, 0.28);
+      border: 1px solid rgba(18, 107, 104, 0.24);
       border-radius: var(--radius);
-      background: #fffaf0;
+      background: rgba(255, 253, 247, 0.78);
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
       text-decoration: none;
     }
 
     .summary {
       display: grid;
-      gap: 12px;
-      margin: 0 0 14px;
-      padding: 14px;
+      gap: 14px;
+      margin: 0 0 12px;
+      padding: 16px;
       background: var(--surface);
-      border: 1px solid #ded7ca;
-      border-left: 6px solid var(--teal);
+      border: 1px solid #ded6c8;
+      border-left: 5px solid var(--teal);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
 
+    .summary-head {
+      display: grid;
+      grid-template-columns: 1fr 72px;
+      gap: 12px;
+      align-items: center;
+    }
+
     .summary-kicker {
-      margin: 0 0 5px;
-      color: #8a6c38;
+      margin: 0 0 6px;
+      color: var(--amber);
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .summary-title {
       margin: 0;
-      font-size: clamp(22px, 6.2vw, 32px);
-      line-height: 1.16;
+      font-size: clamp(24px, 6.6vw, 34px);
+      line-height: 1.14;
+      text-wrap: balance;
     }
 
     .summary-passage {
-      margin: 7px 0 0;
+      margin: 8px 0 0;
       color: var(--muted);
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 800;
       line-height: 1.42;
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+    }
+
+    .progress-orb {
+      --progress: 0deg;
+      display: grid;
+      width: 72px;
+      height: 72px;
+      place-items: center;
+      color: var(--teal-dark);
+      background:
+        radial-gradient(circle at center, var(--surface) 0 58%, transparent 59%),
+        conic-gradient(var(--teal) var(--progress), #e7ece4 0);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(18, 107, 104, 0.12);
+    }
+
+    .progress-orb strong,
+    .progress-orb span {
+      grid-area: 1 / 1;
+      font-family: "Avenir Next", "Hiragino Sans", sans-serif;
+    }
+
+    .progress-orb strong {
+      transform: translateY(-5px);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .progress-orb span {
+      transform: translateY(14px);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
     }
 
     .summary-grid {
@@ -170,10 +230,10 @@
 
     .stat {
       min-width: 0;
-      padding: 10px 9px;
-      border: 1px solid #e1dccf;
+      padding: 10px 9px 9px;
+      border: 1px solid #e5dccd;
       border-radius: var(--radius);
-      background: #fbf7ef;
+      background: linear-gradient(180deg, #fffaf0, #f7efe2);
     }
 
     .stat span {
@@ -189,11 +249,12 @@
       font-size: 18px;
       line-height: 1;
       white-space: nowrap;
+      font-family: "Avenir Next", "Hiragino Sans", sans-serif;
     }
 
     .progress-track {
       overflow: hidden;
-      height: 12px;
+      height: 10px;
       background: #e5ebe5;
       border-radius: 999px;
     }
@@ -208,7 +269,7 @@
 
     .actions {
       display: grid;
-      grid-template-columns: 1fr 1fr 42px;
+      grid-template-columns: 1fr 1fr 44px;
       gap: 8px;
     }
 
@@ -217,9 +278,10 @@
       padding: 10px 9px;
       color: var(--ink);
       background: var(--surface);
-      border: 1px solid #d7ded7;
+      border: 1px solid #d7ded1;
       border-radius: var(--radius);
-      font: 800 14px/1 "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+      font: 900 14px/1 "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+      box-shadow: 0 5px 12px rgba(37, 45, 39, 0.06);
     }
 
     .action-button.primary {
@@ -228,9 +290,15 @@
       border-color: var(--teal);
     }
 
+    .action-button:active,
+    .toggle-button:active,
+    .poster-link:active {
+      transform: translateY(1px);
+    }
+
     .timeline {
       display: grid;
-      gap: 10px;
+      gap: 9px;
       padding-bottom: 36px;
     }
 
@@ -238,13 +306,13 @@
       position: relative;
       overflow: hidden;
       display: grid;
-      grid-template-columns: 60px 1fr;
+      grid-template-columns: 54px 1fr;
       gap: 10px;
-      padding: 12px 11px 12px 13px;
+      padding: 13px 12px 13px 14px;
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: 0 6px 18px rgba(38, 50, 43, 0.06);
+      box-shadow: 0 7px 18px rgba(38, 50, 43, 0.055);
     }
 
     .reading-card::before {
@@ -269,26 +337,30 @@
     }
 
     .reading-card.is-calendar-today {
-      outline: 2px solid rgba(23, 108, 105, 0.45);
+      outline: 2px solid rgba(18, 107, 104, 0.42);
       outline-offset: 2px;
+    }
+
+    .reading-card.is-next {
+      border-color: rgba(139, 106, 49, 0.42);
+      box-shadow: 0 12px 28px rgba(139, 106, 49, 0.12);
     }
 
     .day-box {
       min-width: 0;
       padding-top: 3px;
-      text-align: center;
+      text-align: left;
     }
 
     .day-number {
       display: block;
-      font: 800 26px/1 "Avenir Next", "Hiragino Sans", sans-serif;
+      font: 900 28px/1 "Avenir Next", "Hiragino Sans", sans-serif;
     }
 
     .date-short {
       display: block;
-      margin-top: 7px;
-      font-size: 18px;
-      font-weight: 800;
+      margin-top: 6px;
+      font: 900 20px/1 "Avenir Next", "Hiragino Sans", sans-serif;
       line-height: 1;
     }
 
@@ -297,7 +369,7 @@
       margin-top: 4px;
       color: var(--muted);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .card-body {
@@ -305,12 +377,13 @@
     }
 
     .meta-row {
+      position: relative;
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
       gap: 6px;
       min-height: 28px;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
     }
 
     .pill {
@@ -324,6 +397,7 @@
       font-weight: 900;
       line-height: 1;
       white-space: nowrap;
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
     }
 
     .status-pill {
@@ -334,6 +408,12 @@
     .reading-card.is-complete .status-pill {
       color: white;
       background: var(--teal);
+    }
+
+    .today-pill,
+    .next-pill {
+      color: white;
+      background: var(--amber);
     }
 
     .section-s1 {
@@ -355,19 +435,21 @@
     .reading-title {
       margin: 0;
       font-size: 17px;
-      line-height: 1.36;
+      line-height: 1.38;
       letter-spacing: 0;
+      text-wrap: balance;
     }
 
     .passage {
       display: flex;
       align-items: baseline;
       gap: 8px;
-      margin: 8px 0 0;
+      margin: 7px 0 0;
       color: #39484b;
       font-size: 15px;
       font-weight: 800;
       line-height: 1.42;
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
     }
 
     .passage span {
@@ -377,22 +459,18 @@
       font-weight: 800;
     }
 
-    .toggle-row {
-      grid-column: 1 / -1;
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 2px;
-    }
-
     .toggle-button {
-      min-height: 40px;
-      min-width: 128px;
-      padding: 10px 12px;
+      display: inline-grid;
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      margin-left: auto;
+      place-items: center;
       color: var(--teal);
       background: #fffaf0;
-      border: 1px solid rgba(23, 108, 105, 0.24);
-      border-radius: var(--radius);
-      font: 900 14px/1 "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+      border: 1px solid rgba(18, 107, 104, 0.24);
+      border-radius: 50%;
+      font: 900 18px/1 "Avenir Next", "Hiragino Sans", sans-serif;
     }
 
     .reading-card.is-complete .toggle-button {
@@ -401,26 +479,55 @@
       border-color: var(--teal);
     }
 
-    .poster-panel {
-      margin: 2px 0 12px;
-      padding: 11px;
+    .poster-drawer {
+      margin: 0 0 12px;
+      padding: 0;
       background: #fffaf0;
       border: 1px solid #e2d7c2;
       border-radius: var(--radius);
     }
 
-    .poster-panel img {
+    .poster-drawer summary {
+      min-height: 44px;
+      padding: 12px 13px;
+      color: var(--amber);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 900;
+      list-style: none;
+    }
+
+    .poster-drawer summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .poster-drawer summary::after {
+      float: right;
+      color: var(--teal);
+      content: "+";
+      font: 900 18px/1 "Avenir Next", sans-serif;
+    }
+
+    .poster-drawer[open] summary::after {
+      content: "-";
+    }
+
+    .poster-drawer-inner {
+      padding: 0 11px 11px;
+    }
+
+    .poster-drawer img {
       display: block;
       width: 100%;
       height: auto;
-      max-height: 280px;
+      max-height: 300px;
       object-fit: cover;
       object-position: top;
       border: 1px solid #d8d1c5;
       border-radius: var(--radius);
     }
 
-    .poster-panel a {
+    .poster-drawer a {
       display: inline-flex;
       min-height: 38px;
       align-items: center;
@@ -452,6 +559,50 @@
         min-height: 156px;
       }
     }
+
+    @media (max-width: 360px) {
+      .brand-tag,
+      .top-progress {
+        display: none;
+      }
+
+      .poster-link {
+        padding-inline: 8px;
+      }
+
+      .summary {
+        padding-inline: 13px;
+      }
+
+      .summary-head {
+        grid-template-columns: 1fr 64px;
+      }
+
+      .progress-orb {
+        width: 64px;
+        height: 64px;
+      }
+
+      .reading-card {
+        grid-template-columns: 50px 1fr;
+        padding-inline: 12px 10px;
+      }
+
+      .pill {
+        padding-inline: 8px;
+      }
+
+      .meta-row {
+        flex-wrap: wrap;
+        padding-right: 40px;
+      }
+
+      .toggle-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -461,7 +612,8 @@
         <div class="brand" aria-label="Devotion 70">
           <span class="brand-mark">70</span>
           <h1>Devotion</h1>
-          <small>M28</small>
+          <small class="brand-tag">M28</small>
+          <span class="top-progress" id="top-progress">0/70</span>
         </div>
         <a class="poster-link" href="assets/schedule-poster.png">ポスター版</a>
       </div>
@@ -469,10 +621,16 @@
 
     <main>
       <section class="summary" aria-labelledby="summary-title">
-        <div>
-          <p class="summary-kicker" id="summary-kicker">次に読む箇所</p>
-          <h2 class="summary-title" id="summary-title">読み込み中</h2>
-          <p class="summary-passage" id="summary-passage"></p>
+        <div class="summary-head">
+          <div>
+            <p class="summary-kicker" id="summary-kicker">次に読む箇所</p>
+            <h2 class="summary-title" id="summary-title">読み込み中</h2>
+            <p class="summary-passage" id="summary-passage"></p>
+          </div>
+          <div class="progress-orb" id="progress-orb" aria-hidden="true">
+            <strong id="progress-percent">0%</strong>
+            <span>進捗</span>
+          </div>
         </div>
         <div class="summary-grid" aria-label="進捗">
           <div class="stat">
@@ -498,10 +656,13 @@
         </div>
       </section>
 
-      <section class="poster-panel" aria-label="ポスター版">
-        <img src="assets/schedule-poster.png" alt="毎日聖書通読スケジュールのポスター版">
-        <a href="assets/schedule-poster.png">画像を開く</a>
-      </section>
+      <details class="poster-drawer">
+        <summary>ポスター版を開く</summary>
+        <div class="poster-drawer-inner">
+          <img src="assets/schedule-poster.png" alt="毎日聖書通読スケジュールのポスター版">
+          <a href="assets/schedule-poster.png">画像を開く</a>
+        </div>
+      </details>
 
       <section class="timeline" id="timeline" aria-label="聖書通読スケジュール"></section>
     </main>
@@ -595,7 +756,10 @@
     const summaryPassage = document.querySelector("#summary-passage");
     const completedCount = document.querySelector("#completed-count");
     const remainingCount = document.querySelector("#remaining-count");
+    const topProgress = document.querySelector("#top-progress");
     const progressFill = document.querySelector("#progress-fill");
+    const progressOrb = document.querySelector("#progress-orb");
+    const progressPercent = document.querySelector("#progress-percent");
     const nextButton = document.querySelector("#next-button");
     const todayButton = document.querySelector("#today-button");
     const resetButton = document.querySelector("#reset-button");
@@ -638,12 +802,14 @@
     }
 
     function renderCards() {
+      const nextReading = READINGS.find((reading) => !completed.has(reading.day));
       timeline.innerHTML = READINGS.map((reading) => {
         const isComplete = completed.has(reading.day);
         const isToday = reading.date === todayIso;
+        const isNext = nextReading && reading.day === nextReading.day;
         const weekendClass = reading.weekday === "土" ? "weekend-sat" : reading.weekday === "日" ? "weekend-sun" : "";
         return `
-          <article class="reading-card ${weekendClass} ${isComplete ? "is-complete" : ""} ${isToday ? "is-calendar-today" : ""}" id="day-${reading.day}" data-day="${reading.day}">
+          <article class="reading-card ${weekendClass} ${isComplete ? "is-complete" : ""} ${isToday ? "is-calendar-today" : ""} ${isNext ? "is-next" : ""}" id="day-${reading.day}" data-day="${reading.day}">
             <div class="day-box">
               <span class="day-number">${String(reading.day).padStart(2, "0")}</span>
               <time class="date-short" datetime="${reading.date}">${shortDate(reading.date)}</time>
@@ -652,15 +818,15 @@
             <div class="card-body">
               <div class="meta-row">
                 <span class="pill status-pill">${isComplete ? "完了" : "予定"}</span>
+                ${isToday ? '<span class="pill today-pill">今日</span>' : ""}
+                ${isNext && !isToday ? '<span class="pill next-pill">次</span>' : ""}
                 <span class="pill ${sectionClass(reading.section)}">${reading.section}</span>
+                <button class="toggle-button" type="button" aria-label="${isComplete ? `${reading.day}日目を未完了に戻す` : `${reading.day}日目を完了にする`}" aria-pressed="${isComplete}" data-toggle="${reading.day}" title="${isComplete ? "未完了に戻す" : "完了にする"}">
+                  ${isComplete ? "✓" : "○"}
+                </button>
               </div>
               <h2 class="reading-title">${reading.title}</h2>
               <p class="passage"><span>聖書箇所</span>${reading.passage}</p>
-            </div>
-            <div class="toggle-row">
-              <button class="toggle-button" type="button" aria-pressed="${isComplete}" data-toggle="${reading.day}">
-                ${isComplete ? "完了済み" : "完了にする"}
-              </button>
             </div>
           </article>
         `;
@@ -670,6 +836,7 @@
     function updateSummary() {
       const done = completed.size;
       const remaining = READINGS.length - done;
+      const percent = Math.round((done / READINGS.length) * 100);
       const nextReading = READINGS.find((reading) => !completed.has(reading.day)) || READINGS[READINGS.length - 1];
       const calendarReading = READINGS.find((reading) => reading.date === todayIso);
       const featured = calendarReading && !completed.has(calendarReading.day) ? calendarReading : nextReading;
@@ -679,7 +846,10 @@
       summaryPassage.textContent = `${shortDate(featured.date)}（${featured.weekday}） ${featured.passage}`;
       completedCount.textContent = `${done} / ${READINGS.length}`;
       remainingCount.textContent = `${remaining}日`;
-      progressFill.style.width = `${Math.round((done / READINGS.length) * 100)}%`;
+      topProgress.textContent = `${done}/${READINGS.length}`;
+      progressFill.style.width = `${percent}%`;
+      progressOrb.style.setProperty("--progress", `${percent * 3.6}deg`);
+      progressPercent.textContent = `${percent}%`;
       nextButton.dataset.target = `day-${nextReading.day}`;
       todayButton.dataset.target = calendarReading ? `day-${calendarReading.day}` : `day-${nextReading.day}`;
     }
