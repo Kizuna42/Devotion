@@ -7,7 +7,7 @@
   <meta name="description" content="M28 Bible passage list based daily devotion reading schedule.">
   <meta property="og:title" content="Devotion 70">
   <meta property="og:description" content="毎日1行ずつ進める聖書通読スケジュール">
-  <meta property="og:image" content="assets/schedule-poster.png">
+  <meta property="og:image" content="https://kizuna42.github.io/Devotion/assets/schedule-poster.png">
   <title>Devotion 70</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23176c69'/%3E%3Cpath d='M20 15h20a8 8 0 0 1 8 8v26H24a8 8 0 0 1-8-8V19a4 4 0 0 1 4-4Z' fill='%23fffdf8'/%3E%3Cpath d='M25 25h14M25 33h14M25 41h10' stroke='%23172426' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
   <style>
@@ -659,7 +659,7 @@
       <details class="poster-drawer">
         <summary>ポスター版を開く</summary>
         <div class="poster-drawer-inner">
-          <img src="assets/schedule-poster.png" alt="毎日聖書通読スケジュールのポスター版">
+          <img src="assets/schedule-poster.png" loading="lazy" decoding="async" alt="毎日聖書通読スケジュールのポスター版">
           <a href="assets/schedule-poster.png">画像を開く</a>
         </div>
       </details>
@@ -770,23 +770,42 @@
       return local.toISOString().slice(0, 10);
     }
 
+    const VALID_DAYS = new Set(READINGS.map((reading) => reading.day));
+
+    function readStorage() {
+      try {
+        return localStorage.getItem(STORAGE_KEY);
+      } catch {
+        return null;
+      }
+    }
+
+    function writeStorage(values) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
+      } catch {
+        // Storage may be unavailable (e.g. private browsing); keep progress in memory only.
+      }
+    }
+
     function loadCompleted() {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw = readStorage();
       if (!raw) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_COMPLETED));
+        writeStorage(DEFAULT_COMPLETED);
         return new Set(DEFAULT_COMPLETED);
       }
       try {
-        const values = JSON.parse(raw).filter((value) => Number.isInteger(value));
-        return new Set(values);
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) throw new TypeError("invalid progress data");
+        return new Set(parsed.filter((value) => VALID_DAYS.has(value)));
       } catch {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_COMPLETED));
+        writeStorage(DEFAULT_COMPLETED);
         return new Set(DEFAULT_COMPLETED);
       }
     }
 
     function saveCompleted(completed) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...completed].sort((a, b) => a - b)));
+      writeStorage([...completed].sort((a, b) => a - b));
     }
 
     let completed = loadCompleted();
@@ -882,10 +901,11 @@
     nextButton.addEventListener("click", () => scrollToCard(nextButton.dataset.target));
     todayButton.addEventListener("click", () => scrollToCard(todayButton.dataset.target));
     resetButton.addEventListener("click", () => {
+      if (!window.confirm("進捗を初期状態に戻しますか？")) return;
       completed = new Set(DEFAULT_COMPLETED);
       saveCompleted(completed);
       refresh();
-      scrollToCard("day-4");
+      scrollToCard(nextButton.dataset.target);
     });
 
     refresh();
